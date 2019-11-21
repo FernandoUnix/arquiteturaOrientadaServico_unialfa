@@ -1,5 +1,7 @@
 package com.hotel.hotelapi.service;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +26,12 @@ public class ClienteService {
 	}
 	
 	public Cliente getClienteById(Long id) {
-		return clienteRepository.getOne(id);
+		Optional<Cliente> cliente = clienteRepository.findById(id);
+		
+		if(cliente.isEmpty()) {
+			return null;
+		}
+		
+		return cliente.get();
 	}
 }

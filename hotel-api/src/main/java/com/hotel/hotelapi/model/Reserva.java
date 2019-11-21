@@ -1,14 +1,20 @@
 package com.hotel.hotelapi.model;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.hotel.hotelapi.enums.HotelStatus;
 
 @Entity
 public class Reserva implements Serializable {
@@ -20,13 +26,35 @@ public class Reserva implements Serializable {
 	private LocalDateTime inicioEstadia;
 	private LocalDateTime fimEstadia;
 	
+	private BigDecimal precoTotal;
+	
+	@JsonBackReference
 	@ManyToOne
 	@JoinColumn(name = "hotel_id", nullable = false)
 	private Hotel hotel;
+	
+	public BigDecimal getPrecoTotal() {
+		return precoTotal;
+	}
+
+	public void setPrecoTotal(BigDecimal precoTotal) {
+		this.precoTotal = precoTotal;
+	}
 
 	@ManyToOne
 	@JoinColumn(name = "cliente_id", nullable = false)
 	private Cliente cliente;
+
+	@Enumerated(EnumType.STRING)
+	private HotelStatus status;
+	
+	public HotelStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(HotelStatus status) {
+		this.status = status;
+	}
 
 	public Long getId() {
 		return id;
@@ -67,7 +95,4 @@ public class Reserva implements Serializable {
 	public void setCliente(Cliente cliente) {
 		this.cliente = cliente;
 	}
-	
-	
-	
 }

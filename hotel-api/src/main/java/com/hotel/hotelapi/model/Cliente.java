@@ -33,8 +33,8 @@ public class Cliente implements Serializable {
     private LocalDate dataNascimento;
     
     //@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "cliente")
-    @OneToMany(mappedBy = "cliente")
-    private List<Reserva> reservas = new ArrayList<Reserva>();
+//    @OneToMany(mappedBy = "cliente")
+//    private List<Reserva> reservas = new ArrayList<Reserva>();
 
 	public Long getId() {
 		return id;
@@ -60,13 +60,13 @@ public class Cliente implements Serializable {
 		this.dataNascimento = dataNascimento;
 	}
 
-	public List<Reserva> getReservas() {
-		return reservas;
-	}
-
-	public void setReservas(List<Reserva> reservas) {
-		this.reservas = reservas;
-	}
+//	public List<Reserva> getReservas() {
+//		return reservas;
+//	}
+//
+//	public void setReservas(List<Reserva> reservas) {
+//		this.reservas = reservas;
+//	}
     
     
     

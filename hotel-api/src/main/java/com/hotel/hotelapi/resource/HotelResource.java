@@ -1,8 +1,15 @@
 package com.hotel.hotelapi.resource;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.hotel.hotelapi.model.Cliente;
 import com.hotel.hotelapi.model.Hotel;
@@ -24,14 +31,26 @@ public class HotelResource {
 		return "hello world";
 	}
 
+	@GetMapping("/consulta-hotel")
+	public List<Hotel> getListHotel() {
+		return hotelService.getListHotel();
+	}
+
+//	@GetMapping("/reservas-cliente")
+//	public List<Reserva> getReservasClientes(Long idCliente) {
+//		return clienteService.getClienteById(idCliente).getReservas();
+//	}
+
 	@PostMapping("/realizar-reserva")
-	public Reserva realizarReserva(Cliente cliente, Hotel hotel) {
+	public ResponseEntity<Reserva> realizarReserva(@RequestBody Cliente cliente, @RequestParam("idHotel") Long idHotel,
+			@RequestParam("inicio")  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime inicio, 
+			@RequestParam("fim")  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime fim) {
 
 		Cliente cli = clienteService.getOrSaveCliente(cliente);
-		Reserva reserva = hotelService.addReserva(cli, hotel);
+		Hotel hotel = hotelService.getHotelById(idHotel);
 
-		hotelService.save(hotel);
-		
-		return reserva;
+		Reserva reserva = hotelService.addReserva(cli, hotel, inicio, fim);
+
+		return ResponseEntity.ok(reserva);
 	}
 }
