@@ -7,16 +7,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 
 import com.hotel.hotelapi.model.Hotel;
 import com.hotel.hotelapi.service.HotelService;
 
 @SpringBootApplication
+@ComponentScan(basePackages = {"com.hotel.hotelapi"})
 public class HotelApiApplication {
 
 	@Autowired
 	private HotelService hotelService;
 
+	
 	public static void main(String[] args) {
 		SpringApplication.run(HotelApiApplication.class, args);
 	}

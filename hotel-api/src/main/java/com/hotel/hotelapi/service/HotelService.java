@@ -3,7 +3,9 @@ package com.hotel.hotelapi.service;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.Period;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,13 +25,57 @@ public class HotelService {
 	public List<Hotel> getListHotel() {
 		return hotelRepository.findAll();
 	}
-
+	
 	public Hotel getHotelById(Long id) {
 		return hotelRepository.getOne(id);
 	}
 
 	public Hotel save(Hotel hotel) {
 		return hotelRepository.save(hotel);
+	}
+
+	public List<Hotel> getHoteisReservadoCliente(Long idCliente) {
+
+		return hotelRepository.findAll().stream()
+				.filter(x -> x.getReservas().stream().anyMatch(y -> y.getCliente().getId().equals(idCliente)))
+				.map(x -> {
+					x.getReservas().stream().filter(y -> y.getCliente().getId().equals(idCliente));
+					return x;
+				})
+				.collect((Collectors.toList()));
+	}
+
+	public BigDecimal getTotalReservas(Long idCliente) {
+		List<Hotel> hoteis = getHoteisReservadoCliente(idCliente);
+		
+		return hoteis
+		.stream()
+		.map(x -> x.getReservas())
+		.flatMap(x -> x.stream())
+		.map(Reserva::getPrecoTotal)
+		.reduce(BigDecimal::add)
+		.orElse(BigDecimal.ZERO);
+	}
+	
+	public BigDecimal getTotalReservaHotel(Long idHotel, Long idCliente) {
+		List<Reserva> reservas = getReservasClientePorHotel(idHotel, idCliente);
+		
+		return reservas
+		.stream()
+		.map(Reserva::getPrecoTotal)
+		.reduce(BigDecimal::add)
+		.orElse(BigDecimal.ZERO);
+	}
+	
+	public List<Reserva> getReservasClientePorHotel(Long idHotel, Long idCliente) {
+
+		return hotelRepository
+				.findAll()
+				.stream()
+				.filter(x -> x.getId().equals(idHotel))
+				.map(x -> x.getReservas())
+				.flatMap(x -> x.stream())
+				.filter(x -> x.getCliente().getId().equals(idCliente)).collect((Collectors.toList()));
 	}
 
 	public Reserva addReserva(Cliente cliente, Hotel hotel, LocalDateTime inicio, LocalDateTime fim) {
