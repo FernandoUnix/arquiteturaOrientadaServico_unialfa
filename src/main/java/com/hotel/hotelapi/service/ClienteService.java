@@ -26,12 +26,12 @@ public class ClienteService {
 	}
 	
 	public Cliente getClienteById(Long id) {
-		Optional<Cliente> cliente = clienteRepository.findById(id);
+		return  clienteRepository.findById(id).orElse(null);
 		
-		if(cliente.isEmpty()) {
-			return null;
-		}
-		
-		return cliente.get();
+//		if(cliente.isEmpty()) {
+//			return null;
+//		}
+//		
+//		return cliente.get();
 	}
 }
