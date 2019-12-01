@@ -82,9 +82,9 @@ public class HotelResource {
 //	}
 
 	@ApiOperation(value = "Obter total das reservas pendente de um cliente")
-	@GetMapping("/api/hotel/total-reserva-pendente/cliente/{idCliente}")
-	public BigDecimal getTotalReservas(@PathVariable("idCliente") Long idCliente) {
-		return hotelService.getTotalReservas(idCliente);
+	@GetMapping("/api/hotel/total-reserva-pendente/cliente/{id}")
+	public BigDecimal getTotalReservas(@PathVariable("id") Long id) {
+		return hotelService.getTotalReservas(id);
 	}
 
 //	@ApiOperation(value = "Obter total da reserva do cliente de um determinado hotel")
