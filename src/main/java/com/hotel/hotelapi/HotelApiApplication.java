@@ -6,6 +6,7 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 
@@ -14,6 +15,7 @@ import com.hotel.hotelapi.service.HotelService;
 
 @SpringBootApplication
 @ComponentScan(basePackages = {"com.hotel.hotelapi"})
+@EnableEurekaClient
 public class HotelApiApplication {
 
 	@Autowired
