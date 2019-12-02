@@ -49,10 +49,11 @@ public class HotelResource {
 	}
 
 	@ApiOperation(value = "Alterar status das reservas pendentes do cliente")
-	@PutMapping("/api/hotel/Reserva/cliente/{clienteId}/status/{status}")
-	public void atualizaStatusReservas(@PathVariable("clienteId") Long clienteId,
-			@PathVariable("status") HotelStatus status) {
-		hotelService.atualizaStatusReservas(clienteId, status);
+	@PutMapping("/api/hotel/Reserva/cliente/{id}/status/{status}")
+	public void atualizaStatusReservas(@PathVariable("id") Long clienteId,
+			@PathVariable("status") int status) {
+		
+		hotelService.atualizaStatusReservas(clienteId, HotelStatus.Status(status));
 	}
 
 	@ApiOperation(value = "Realizar reserva para um cliente")
