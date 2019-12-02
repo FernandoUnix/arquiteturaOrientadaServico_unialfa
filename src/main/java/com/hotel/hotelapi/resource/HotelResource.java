@@ -55,7 +55,7 @@ public class HotelResource {
 		
 		hotelService.atualizaStatusReservas(clienteId, HotelStatus.Status(status));
 	}
-
+ 
 	@ApiOperation(value = "Realizar reserva para um cliente")
 	@PostMapping("/api/hotel/realizar-reserva")
 	public ResponseEntity<Reserva> realizarReserva(@RequestBody ParametrosReserva parametrosReserva) {
